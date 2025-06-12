@@ -18,6 +18,18 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, 'Password is required.']
+    },
+    photoURL: {
+      type: String,
+      required: false
+    },
+    typeofdiabetes: {
+      type: Number,
+      required: false
+    },
+    insulinaxracion: {
+      type: Number,
+      required: false
     }
   },
   {

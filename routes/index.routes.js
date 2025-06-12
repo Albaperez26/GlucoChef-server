@@ -5,6 +5,12 @@ router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
 
+const recipeRouter = require("./recipe.routes")
+router.use("/recipes", recipeRouter)
+
+const ingredientRouter = require("./ingredient.routes")
+router.use("/ingredients", ingredientRouter)
+
 const verifyToken = require("../middlewares/auth.middleware")
 
 router.get("/",(req,res,next) => {
