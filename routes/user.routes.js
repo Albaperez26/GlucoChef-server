@@ -2,9 +2,9 @@ const express = require("express")
 const router = express.Router()
 
 const User = require("../models/User.model")
-
+const {verifyToken} = require("../middlewares/auth.middleware")
 //Ir a la página de usuario
-router.get("/:userId", async (req, res, next) => {
+router.get("/:userId", verifyToken, async (req, res, next) => {
     try {
         const response = await User.findById(req.params.userId)
         res.json(response)
@@ -17,7 +17,7 @@ router.get("/:userId", async (req, res, next) => {
 
 
 //Editar la pagina de usuario
-router.patch("/:userId", async (req, resizeBy, next) => {
+router.patch("/:userId", verifyToken, async (req, res, next) => {
     try {
         const responseFromDB = await User.findByIdAndUpdate(req.params.userId, {
             username: req.body.username,
@@ -25,6 +25,7 @@ router.patch("/:userId", async (req, resizeBy, next) => {
             typeofdiabetes: req.body.typeofdiabetes,
             insulinaxracion: req.body.insulinaxracion
         })
+        res.json(responseFromDB)
     } catch (error) {
         console.log("Error en la ruta edit user")
         next(error)
