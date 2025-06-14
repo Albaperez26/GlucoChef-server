@@ -11,6 +11,9 @@ router.use("/recipes", recipeRouter)
 const ingredientRouter = require("./ingredient.routes")
 router.use("/ingredients", ingredientRouter)
 
+const userRouter = require("./user.routes")
+router.use("/user", userRouter)
+
 const verifyToken = require("../middlewares/auth.middleware")
 
 router.get("/",(req,res,next) => {

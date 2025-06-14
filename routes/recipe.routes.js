@@ -1,12 +1,12 @@
 const express = require("express")
 const router = express.Router()
 
-////////////EDITAR INDEX ROUTES CON LA RUTA COMPLETA
-const Recipe = require("../models/Recipe.model")
+const Recipe = require("../models/Recipe.model");
+const verifyToken = require("../middlewares/auth.middleware");
+const { verify } = require("jsonwebtoken");
 //Crear una nueva receta
-router.post(("/"), async(req, res, next) => {
+router.post(("/"), verifyToken, async(req, res, next) => {
     try {
-        
         const response = await Recipe.create({
             titulo: req.body.titulo,
             totalHC: req.body.totalHC,
@@ -14,7 +14,7 @@ router.post(("/"), async(req, res, next) => {
             photoURL: req.body.photoURL,
             clasificacion: req.body.clasificacion,
             elaboracion: req.body.elaboracion,
-            creador: req.body.creador,
+            creador: req.payload._id,
             ingredientes: req.body.ingredientes
         })
         res.json(response)
@@ -25,10 +25,9 @@ router.post(("/"), async(req, res, next) => {
 })
 
 //Ver todas las recetas 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyToken, async (req, res, next) => {
     try {
         const response = await Recipe.find({})
-        .populate("recipe") //preguntar a jorge
         res.json(response)
     } catch (error) {
         console.log("error en la ruta ver recetas")
@@ -36,9 +35,24 @@ router.get("/", async (req, res, next) => {
     }
 })
 
+//ver las recetas de un usuario en específico
+
+router.get("/myrecipes", verifyToken, async (req, res, next) => {
+
+    try {
+        const response = await Recipe.find({
+            creador: req.payload._id
+        });
+        res.json(response)
+    } catch (error) {
+        console.log("error en la ruta ver receta de un user")
+        next(error)
+    }
+})
+
 //Editar receta
 
-router.put("/:recipesId", async (req, res, next) => {
+router.put("/:recipesId",verifyToken, async (req, res, next) => {
 
     try {
         const responseFromDB = await Recipe.findByIdAndUpdate(req.params.recipesId, {
@@ -62,7 +76,7 @@ router.put("/:recipesId", async (req, res, next) => {
 
 //Eliminar receta
 
-router.delete("/:recipesId", async (req, res, next) => {
+router.delete("/:recipesId",verifyToken, async (req, res, next) => {
     try {
         await Recipe.findByIdAndDelete(req.params.recipesId)
         res.send("¡Receta eliminada!")

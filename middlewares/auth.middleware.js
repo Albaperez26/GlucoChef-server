@@ -10,7 +10,8 @@ function verifyToken(req, res, next) {
 
         const payload = jwt.verify(token, process.env.SECRET_TOKEN)
         req.payload = payload
-        
+
+        next();
     } catch (error) {
         res.status(401).json({errorMessage: "El token no existe o no es válido"})
     }
