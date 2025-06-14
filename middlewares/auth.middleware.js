@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-
+//verifica que el token sea válido
 function verifyToken(req, res, next) {
     console.log("ejecutando middleware auth")
 
@@ -17,4 +17,18 @@ function verifyToken(req, res, next) {
     }
 }
 
-module.exports = verifyToken
+//funcion verifica que el user sea admin
+
+function verifyAdmin(req, res, next) {
+    if(req.payload.role === "admin") {
+        next()//continua con la ruta
+    }
+    else {
+        res.status(401).json({errorMessage:"Este usuario no es admin"})
+    }
+}
+
+module.exports = {
+    verifyToken,
+    verifyAdmin
+}

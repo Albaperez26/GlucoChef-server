@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 const Recipe = require("../models/Recipe.model");
-const verifyToken = require("../middlewares/auth.middleware");
+const {verifyToken} = require("../middlewares/auth.middleware");
 const { verify } = require("jsonwebtoken");
 //Crear una nueva receta
 router.post(("/"), verifyToken, async(req, res, next) => {

@@ -30,6 +30,11 @@ const userSchema = new Schema(
     insulinaxracion: {
       type: Number,
       required: false
+    },
+    role:{
+      type: String,
+      enum: ["user", "admin"],
+      default: "user" //cualquir usuario x defecto es user normal
     }
   },
   {

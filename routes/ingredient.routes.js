@@ -2,11 +2,11 @@ const express = require("express")
 const router = express.Router()
 
 const Ingredients = require("../models/Ingredients.model")
-const verifyToken = require("../middlewares/auth.middleware")
+const {verifyToken, verifyAdmin}  = require("../middlewares/auth.middleware")
 const Recipe = require("../models/Recipe.model")
 
 //Crear un nuevo ingrediente SOLO ADMIN
-router.post(("/"),verifyToken, async(req, res, next) => {
+router.post(("/"), verifyToken, verifyAdmin, async(req, res, next) => {
 
     try {
         const response = await Ingredients.create({
@@ -24,7 +24,7 @@ router.post(("/"),verifyToken, async(req, res, next) => {
 
 //Editar un ingrediente SOLO ADMIN
 
-router.put("/:ingredientsId",verifyToken, async (req, res, next) => {
+router.put("/:ingredientsId",verifyToken, verifyAdmin, async (req, res, next) => {
 
     try {
         const responseFromDB = await Ingredients.findByIdAndUpdate(req.params.ingredientsId, {
@@ -43,7 +43,7 @@ router.put("/:ingredientsId",verifyToken, async (req, res, next) => {
 //Eliminar un ingrediente SOLO ADMIN
 //verificar si existe ingr. en alguna receta, si existe no se puede eliminar
 
-router.delete("/:ingredientsId",verifyToken, async(req, res, next) => {
+router.delete("/:ingredientsId",verifyToken, verifyAdmin, async(req, res, next) => {
     try {
 
         const {ingredientsId} = req.params;
