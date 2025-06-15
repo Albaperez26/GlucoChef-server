@@ -29,12 +29,12 @@ const recipeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    /*ingredientes: [
+    ingredientes: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Ingredientes'
         }
-    ]*/
+    ]
 })
 
 const Recipe = model('Recipe', recipeSchema)

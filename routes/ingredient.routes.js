@@ -22,6 +22,16 @@ router.post(("/"), verifyToken, verifyAdmin, async(req, res, next) => {
     }
 })
 
+router.get("/", verifyToken, async(req, res, next) => {
+    try {
+        const response = await Ingredients.find({})
+        res.json(response)
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+})
+
 //Editar un ingrediente SOLO ADMIN
 
 router.put("/:ingredientsId",verifyToken, verifyAdmin, async (req, res, next) => {
