@@ -25,6 +25,7 @@ const userSchema = new Schema(
     },
     typeofdiabetes: {
       type: Number,
+      enum: [1,2],
       required: false
     },
     insulinaxracion: {

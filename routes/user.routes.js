@@ -17,7 +17,7 @@ router.get("/:userId", verifyToken, async (req, res, next) => {
 
 
 //Editar la pagina de usuario
-router.patch("/:userId", verifyToken, async (req, res, next) => {
+router.patch("/:userId/edit", verifyToken, async (req, res, next) => {
     try {
         const responseFromDB = await User.findByIdAndUpdate(req.params.userId, {
             username: req.body.username,
@@ -25,6 +25,7 @@ router.patch("/:userId", verifyToken, async (req, res, next) => {
             typeofdiabetes: req.body.typeofdiabetes,
             insulinaxracion: req.body.insulinaxracion
         })
+        console.log(req.body)
         res.json(responseFromDB)
     } catch (error) {
         console.log("Error en la ruta edit user")

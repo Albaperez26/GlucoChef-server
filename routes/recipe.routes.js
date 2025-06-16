@@ -5,7 +5,7 @@ const Recipe = require("../models/Recipe.model");
 const {verifyToken} = require("../middlewares/auth.middleware");
 const { verify } = require("jsonwebtoken");
 //Crear una nueva receta
-router.post(("/"), verifyToken, async(req, res, next) => {
+router.post(("/create"), verifyToken, async(req, res, next) => {
     try {
         const response = await Recipe.create({
             titulo: req.body.titulo,
@@ -65,7 +65,7 @@ router.get("/myrecipes/:recipesId", verifyToken, async (req, res, next) => {
 })
 //Editar receta
 
-router.put("/:recipesId",verifyToken, async (req, res, next) => {
+router.put("/myrecipes/:recipesId",verifyToken, async (req, res, next) => {
 
     try {
         const responseFromDB = await Recipe.findByIdAndUpdate(req.params.recipesId, {
@@ -88,7 +88,7 @@ router.put("/:recipesId",verifyToken, async (req, res, next) => {
 
 //Eliminar receta
 
-router.delete("/:recipesId",verifyToken, async (req, res, next) => {
+router.delete("/myrecipes/:recipesId",verifyToken, async (req, res, next) => {
     try {
         await Recipe.findByIdAndDelete(req.params.recipesId)
         res.send("¡Receta eliminada!")
