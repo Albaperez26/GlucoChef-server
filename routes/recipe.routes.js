@@ -50,6 +50,19 @@ router.get("/myrecipes", verifyToken, async (req, res, next) => {
     }
 })
 
+//ruta para ver detalles de una receta
+
+router.get("/myrecipes/:recipesId", verifyToken, async (req, res, next) => {
+
+    try {
+        const {recipesId} = req.params;
+        const response = await Recipe.findById(recipesId)
+        res.json(response)
+    } catch (error) {
+        console.log("error en la ruta ver detalles de una receta de usuario")
+        next(error)
+    }
+})
 //Editar receta
 
 router.put("/:recipesId",verifyToken, async (req, res, next) => {
@@ -62,7 +75,6 @@ router.put("/:recipesId",verifyToken, async (req, res, next) => {
             photoURL: req.body.photoURL,
             clasificacion: req.body.clasificacion,
             elaboracion: req.body.elaboracion,
-            creador: req.body.creador,
             ingredientes: req.body.ingredientes
     })
     res.json(responseFromDB)
