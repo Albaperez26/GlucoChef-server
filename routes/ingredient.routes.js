@@ -6,7 +6,7 @@ const {verifyToken, verifyAdmin}  = require("../middlewares/auth.middleware")
 const Recipe = require("../models/Recipe.model")
 
 //Crear un nuevo ingrediente SOLO ADMIN
-router.post(("/"), verifyToken, verifyAdmin, async(req, res, next) => {
+router.post(("/create"), verifyToken, verifyAdmin, async(req, res, next) => {
 
     try {
         const response = await Ingredients.create({
@@ -21,8 +21,8 @@ router.post(("/"), verifyToken, verifyAdmin, async(req, res, next) => {
         next(error)
     }
 })
-
-router.get("/", verifyToken, async(req, res, next) => {
+//ruta para ver TODOS los ingredientes
+router.get("/", verifyToken, verifyAdmin, async(req, res, next) => {
     try {
         const response = await Ingredients.find({})
         res.json(response)
@@ -31,6 +31,17 @@ router.get("/", verifyToken, async(req, res, next) => {
         next(error)
     }
 })
+
+//ruta para ver un ingr en especifico
+router.get("/:ingredientsId", verifyToken, verifyAdmin, async (req, res, next) => {
+  try {
+    const response = await Ingredients.findById(req.params.ingredientsId);
+    res.json(response);
+  } catch (error) {
+    console.log("Error al obtener ingrediente específico:", error);
+    next(error);
+  }
+});
 
 //Editar un ingrediente SOLO ADMIN
 
