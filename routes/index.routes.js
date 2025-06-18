@@ -5,39 +5,39 @@ router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
 
-const recipeRouter = require("./recipe.routes")
-router.use("/recipes", recipeRouter)
+const recipeRouter = require("./recipe.routes");
+router.use("/recipes", recipeRouter);
 
-const ingredientRouter = require("./ingredient.routes")
-router.use("/ingredients", ingredientRouter)
+const ingredientRouter = require("./ingredient.routes");
+router.use("/ingredients", ingredientRouter);
 
-const userRouter = require("./user.routes")
-router.use("/user", userRouter)
+const userRouter = require("./user.routes");
+router.use("/user", userRouter);
 
-const {verifyToken} = require("../middlewares/auth.middleware")
+const uploadRoutes = require("./upload.routes");
+router.use("/upload", uploadRoutes);
 
-router.get("/",(req,res,next) => {
-    res.json("Todo OK")
-})
+const { verifyToken } = require("../middlewares/auth.middleware");
 
-const authRouter = require("../routes/auth.routes")
-router.use("/auth", authRouter)
+router.get("/", (req, res, next) => {
+  res.json("Todo OK");
+});
 
-const User = require("../models/User.model")
+const authRouter = require("../routes/auth.routes");
+router.use("/auth", authRouter);
 
+const User = require("../models/User.model");
 
-
-
-router.get("/users/:id",verifyToken, async (req, res, next) => {
-  console.log(req.payload)
+router.get("/users/:id", verifyToken, async (req, res, next) => {
+  console.log(req.payload);
   try {
-    console.log(req.params.id)
-    
-    const response = await User.findById(req.payload._id)
-      res.json(response)
+    console.log(req.params.id);
+
+    const response = await User.findById(req.payload._id);
+    res.json(response);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 module.exports = router;

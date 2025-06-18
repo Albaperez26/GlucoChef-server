@@ -15,7 +15,7 @@ router.post("/create", verifyToken, async (req, res, next) => {
       clasificacion: req.body.clasificacion,
       elaboracion: req.body.elaboracion,
       creador: req.payload._id,
-      ingredientes: req.body.ingredientes, //re.payload._id?
+      ingredientes: req.body.ingredientes,
     });
     res.json(response);
   } catch (error) {
