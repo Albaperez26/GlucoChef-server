@@ -28,6 +28,7 @@ router.use("/auth", authRouter);
 
 const User = require("../models/User.model");
 
+//mover a user.routes
 router.get("/users/:id", verifyToken, async (req, res, next) => {
   console.log(req.payload);
   try {
